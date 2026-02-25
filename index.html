@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CBIT • AI Interview Portal – Marketing</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+</head>
+<body>
+
+  <!-- Animated canvas background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"><span class="a">C</span></div>
+        <div class="brandtext">
+          <div class="brandname">CBIT</div>
+          <div class="brandtag">AI Interview Portal • Marketing Specialist</div>
+        </div>
+      </div>
+
+      <div class="statuspill" id="statusPill" title="System status">
+        <span class="dot"></span>
+        <span id="statusText">Ready</span>
+      </div>
+    </header>
+
+    <section class="panel" role="region" aria-label="Interview panel">
+      <!-- LEFT -->
+      <div class="left">
+        <div class="card hero">
+          <div class="badge">Recruitment • Video Interview</div>
+          <h1 id="pageTitle">Welcome</h1>
+          <p class="lead" id="pageLead">
+            You'll complete a short interview with our AI voice. Your <strong>video + audio</strong> will be recorded for review.
+          </p>
+
+          <div class="divider"></div>
+
+          <!-- WELCOME -->
+          <div id="step-welcome">
+            <label class="check">
+              <input type="checkbox" id="consent" />
+              <span>I consent to being recorded for recruitment purposes.</span>
+            </label>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="fullName">Full name</label>
+                <input id="fullName" placeholder="e.g., Maria Santos" autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="email">Email (optional)</label>
+                <input id="email" placeholder="e.g., maria@email.com" autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="tips">
+              <div class="tip">
+                <div class="tiptitle">Quiet, well-lit space</div>
+                <div class="tipbody">Face the light. Keep your eyes and shoulders visible.</div>
+              </div>
+              <div class="tip">
+                <div class="tiptitle">Clear, structured answers</div>
+                <div class="tipbody">We're looking for real examples, creative judgment, and data-driven thinking.</div>
+              </div>
+            </div>
+
+            <button class="primary" id="startBtn">
+              Start
+              <span class="arrow" aria-hidden="true">→</span>
+            </button>
+
+            <p class="fineprint">
+              By continuing, you confirm you understand this interview is recorded and reviewed by CBIT for recruitment purposes.
+            </p>
+          </div>
+
+          <!-- SPEED TEST -->
+          <div id="step-speedtest" class="hidden">
+            <div class="airow">
+              <div class="aiicon" aria-hidden="true">AI</div>
+              <div class="aispeech">
+                <div class="ailabel">CBIT AI Voice</div>
+                <div class="aitext" id="aiTextSpeedTest">"Before we start, we'll run a quick internet speed test to ensure a smooth interview experience."</div>
+              </div>
+            </div>
+
+            <div class="qwrap">
+              <div class="qmeta">
+                <div class="qbadge">Connection Test</div>
+                <div class="qprogress" id="speedTestProgress">Testing your connection…</div>
+              </div>
+              <h2>Internet Speed Check</h2>
+              <p class="lead">This takes about 10 seconds. Please stay on this page.</p>
+            </div>
+
+            <div id="speedTestMetrics" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;">
+              <div class="speed-stat-box">
+                <div class="speed-stat-label">Ping</div>
+                <div id="stPing" class="speed-stat-value">—</div>
+                <div class="speed-stat-unit">ms</div>
+              </div>
+              <div class="speed-stat-box">
+                <div class="speed-stat-label">Download</div>
+                <div id="stDown" class="speed-stat-value">—</div>
+                <div class="speed-stat-unit">Mbps</div>
+              </div>
+              <div class="speed-stat-box">
+                <div class="speed-stat-label">Upload</div>
+                <div id="stUp" class="speed-stat-value">—</div>
+                <div class="speed-stat-unit">Mbps</div>
+              </div>
+            </div>
+
+            <div class="progressbar" id="speedTestBarWrap"><div class="bar" id="speedTestBar" style="width:0%"></div></div>
+            <div id="speedTestStatus" style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:8px;min-height:18px;"></div>
+            <div id="speedTestRating" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:10px;font-size:14px;font-weight:700;"></div>
+
+            <div style="margin-top:16px;display:flex;justify-content:flex-end;">
+              <button class="primarySmall" id="speedTestContinueBtn" disabled>Continue →</button>
+            </div>
+          </div>
+
+          <!-- PRACTICE -->
+          <div id="step-practice" class="hidden">
+            <div class="airow">
+              <div class="aiicon" aria-hidden="true">AI</div>
+              <div class="aispeech">
+                <div class="ailabel">CBIT AI Voice</div>
+                <div class="aitext" id="aiTextPractice">"Let's do a quick practice. This is not scored."</div>
+              </div>
+            </div>
+
+            <div class="qwrap">
+              <div class="qmeta">
+                <div class="qbadge">Practice</div>
+                <div class="qprogress">Get comfortable</div>
+              </div>
+              <h2 id="practiceQuestion">Please say your name and today's date, then briefly introduce yourself as a marketing professional — your area of focus, tools you use, and a recent project you're proud of.</h2>
+            </div>
+
+            <div class="controls">
+              <button class="ghost2" id="practiceRecordBtn">Record</button>
+              <button class="ghost2" id="practiceStopBtn" disabled>Stop</button>
+              <button class="primarySmall" id="practiceContinueBtn" disabled>Continue →</button>
+            </div>
+
+            <div class="playback hidden" id="practicePlaybackWrap">
+              <div class="playbackTitle">Practice playback</div>
+              <video id="practicePlayback" controls playsinline></video>
+            </div>
+
+            <div class="hint">
+              Tip: Adjust your camera framing and lighting here. Keep your face centered and speak clearly.
+            </div>
+          </div>
+
+          <!-- INTERVIEW -->
+          <div id="step-interview" class="hidden">
+            <div class="airow">
+              <div class="aiicon" aria-hidden="true">AI</div>
+              <div class="aispeech">
+                <div class="ailabel">CBIT AI Voice</div>
+                <div class="aitext" id="aiText">"We'll begin the interview now."</div>
+              </div>
+            </div>
+
+            <div class="qwrap">
+              <div class="qmeta">
+                <div class="qbadge" id="qBadge">Question</div>
+                <div class="qprogress" id="qProgress">—</div>
+              </div>
+              <h2 id="question">…</h2>
+              <p class="followup hidden" id="followup"></p>
+            </div>
+
+            <div class="controls">
+              <button class="ghost2" id="recordBtn">Record</button>
+              <button class="ghost2" id="stopBtn" disabled>Stop</button>
+              <button class="primarySmall" id="nextBtn" disabled>Next →</button>
+            </div>
+
+            <div class="playback hidden" id="playbackWrap">
+              <div class="playbackTitle">Answer playback</div>
+              <video id="playback" controls playsinline></video>
+              <div class="playbackMeta" id="playbackMeta"></div>
+            </div>
+
+            <div class="hint" id="hintText">
+              Answer clearly and professionally. When ready, press Record.
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+          <div id="step-submit" class="hidden">
+            <h2>Submitting…</h2>
+            <p class="lead">Please keep this tab open while your recordings upload.</p>
+            <div class="progressbar"><div class="bar" id="uploadBar"></div></div>
+            <p class="fineprint" id="uploadStatus">Preparing upload…</p>
+          </div>
+
+          <!-- DONE -->
+          <div id="step-done" class="hidden">
+            <h2>Interview Submitted</h2>
+            <p class="lead">Thank you. Our team will review your recording and get back to you.</p>
+            <p class="fineprint">You may now close this page.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="right">
+        <div class="card previewcard">
+          <div class="previewhead">
+            <div class="previewtitle">Camera Preview</div>
+            <div class="previewsub">Stay centered • Speak clearly • Look into the camera</div>
+          </div>
+
+          <div class="frame">
+            <div class="frameguide" aria-hidden="true"></div>
+            <video id="preview" autoplay muted playsinline></video>
+          </div>
+
+          <div class="previewfoot">
+            <div class="footitem"><span class="k">Mode</span><span class="v">Video</span></div>
+            <div class="footitem"><span class="k">AI Voice</span><span class="v">On</span></div>
+            <div class="footitem"><span class="k">Review</span><span class="v">Skim + Full</span></div>
+          </div>
+
+          <p class="fineprint rightfine">
+            Tip: Use a clean background, stable connection, and keep shoulders visible.
+          </p>
+        </div>
+
+        <div class="mini card">
+          <div class="minititle">What we assess</div>
+          <ul class="bullets">
+            <li>Content planning and creative strategy</li>
+            <li>CapCut and video editing proficiency</li>
+            <li>Data analysis and identifying winning hooks</li>
+            <li>Performance under pressure and revision management</li>
+            <li>Communication clarity and professional judgment</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© CBIT • AI Interview Portal – Marketing</span>
+      <span class="sep">•</span>
+      <span>Designed for desktop & mobile</span>
+    </footer>
+  </main>
+
+  <!-- Supabase JS (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="./supabase-config.js"></script>
+  <script type="module" src="./app.js"></script>
+
+  <!-- Animated video-editing background -->
+  <script>
+  (function () {
+    const canvas = document.getElementById('bgCanvas');
+    const ctx    = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      // re-position leaks on resize
+      leaks[0].x = W * 0.12; leaks[0].y = H * 0.10;
+      leaks[1].x = W * 0.88; leaks[1].y = H * 0.82;
+      leaks[2].x = W * 0.52; leaks[2].y = H * 0.44;
+    }
+
+    /* ── palette ── */
+    const P = {
+      purple : '#8b5cf6',
+      cyan   : '#06d6c8',
+      pink   : '#f43f5e',
+      gold   : '#fbbf24',
+    };
+
+    /* ── light leaks ── */
+    const leaks = [
+      { x: 0, y: 0, r: 420, c: 'rgba(139,92,246,0.08)'  },
+      { x: 0, y: 0, r: 500, c: 'rgba(6,214,200,0.055)'  },
+      { x: 0, y: 0, r: 320, c: 'rgba(244,63,94,0.045)'  },
+    ];
+
+    /* ── film strips ── */
+    const STRIP_ROWS  = 7;
+    const strips = Array.from({ length: STRIP_ROWS }, (_, i) => ({
+      y    : 0,        // set after first resize
+      x    : Math.random() * 2000,
+      speed: 0.28 + Math.random() * 0.45,
+      dir  : i % 2 === 0 ? 1 : -1,
+      alpha: 0.035 + Math.random() * 0.05,
+      fw   : 70, fh: 50, gap: 8,
+    }));
+    function resetStripY() {
+      strips.forEach((s, i) => { s.y = (H / (STRIP_ROWS + 1)) * (i + 1) - 26 + (Math.random() - 0.5) * 40; });
+    }
+
+    /* ── floating play buttons ── */
+    const playBtns = Array.from({ length: 9 }, () => ({
+      x    : Math.random() * 1600,
+      y    : Math.random() * 900,
+      r    : 16 + Math.random() * 30,
+      vx   : (Math.random() - 0.5) * 0.22,
+      vy   : (Math.random() - 0.5) * 0.22,
+      alpha: 0.055 + Math.random() * 0.10,
+      color: [P.purple, P.cyan, P.pink, P.gold][Math.floor(Math.random() * 4)],
+    }));
+
+    /* ── timeline tracks ── */
+    function makeSegments() {
+      return Array.from({ length: 20 }, () => ({
+        w: 35 + Math.random() * 110,
+        g: 5  + Math.random() * 18,
+      }));
+    }
+    const TRACK_COLORS = [P.purple, P.cyan, P.pink, P.gold, 'rgba(255,255,255,0.55)'];
+    const tracks = TRACK_COLORS.map((color, i) => ({
+      yOff  : 0,   // set dynamically
+      offset: Math.random() * 2000,
+      speed : 0.18 + i * 0.07,
+      color,
+      segs  : makeSegments(),
+    }));
+
+    /* ── particles ── */
+    const particles = Array.from({ length: 60 }, () => ({
+      x    : Math.random() * 1600,
+      y    : Math.random() * 900,
+      r    : 0.7 + Math.random() * 1.6,
+      vx   : (Math.random() - 0.5) * 0.15,
+      vy   : -0.08 - Math.random() * 0.18,
+      alpha: 0.12 + Math.random() * 0.30,
+      color: [P.purple, P.cyan, P.pink, P.gold][Math.floor(Math.random() * 4)],
+    }));
+
+    /* ── cursor blink objects ── */
+    const cursors = Array.from({ length: 4 }, () => ({
+      x    : Math.random() * 1600,
+      y    : Math.random() * 900,
+      phase: Math.random() * Math.PI * 2,
+    }));
+
+    /* ─────────── draw functions ─────────── */
+    function drawLeak(lk, t) {
+      const pulse = 1 + 0.05 * Math.sin(t * 0.0006);
+      const g = ctx.createRadialGradient(lk.x, lk.y, 0, lk.x, lk.y, lk.r * pulse);
+      g.addColorStop(0, lk.c);
+      g.addColorStop(1, 'transparent');
+      ctx.save(); ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(lk.x, lk.y, lk.r * pulse, 0, Math.PI * 2);
+      ctx.fill(); ctx.restore();
+    }
+
+    function drawFilmStrip(s) {
+      const { y, x, fw, fh, gap, alpha } = s;
+      const step   = fw + gap;
+      const count  = Math.ceil(W / step) + 4;
+      const startX = ((x % step + step) % step) - step * 2;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = 'rgba(255,255,255,0.50)';
+      ctx.lineWidth   = 0.7;
+      for (let i = 0; i < count; i++) {
+        const fx = startX + i * step;
+        ctx.strokeRect(fx, y, fw, fh);
+        ctx.fillStyle = 'rgba(255,255,255,0.30)';
+        for (let s2 = 0; s2 < 4; s2++) {
+          ctx.beginPath();
+          ctx.arc(fx + 7 + s2 * 16, y + 5,  2.6, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath();
+          ctx.arc(fx + 7 + s2 * 16, y + fh - 5, 2.6, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+
+    function drawPlayBtn(pb) {
+      ctx.save();
+      ctx.globalAlpha = pb.alpha;
+      ctx.beginPath();
+      ctx.arc(pb.x, pb.y, pb.r, 0, Math.PI * 2);
+      ctx.strokeStyle = pb.color; ctx.lineWidth = 1.4; ctx.stroke();
+      const ts = pb.r * 0.40;
+      ctx.beginPath();
+      ctx.moveTo(pb.x - ts * 0.55, pb.y - ts);
+      ctx.lineTo(pb.x - ts * 0.55, pb.y + ts);
+      ctx.lineTo(pb.x + ts * 0.95, pb.y);
+      ctx.closePath();
+      ctx.fillStyle = pb.color; ctx.fill();
+      ctx.restore();
+    }
+
+    function drawTrack(tr) {
+      const ty = H * 0.71 + tr.yOff;
+      ctx.save();
+      ctx.globalAlpha = 0.17;
+      // rail
+      ctx.strokeStyle = tr.color; ctx.lineWidth = 0.9;
+      ctx.beginPath(); ctx.moveTo(0, ty + 9); ctx.lineTo(W, ty + 9); ctx.stroke();
+      // clip segments
+      ctx.fillStyle = tr.color;
+      let cx = -((tr.offset % (W * 1.5) + W * 1.5) % (W * 1.5)) + 0;
+      for (const seg of tr.segs) {
+        if (cx > W + 150) break;
+        if (cx + seg.w > 0) {
+          ctx.beginPath();
+          ctx.roundRect(cx, ty, seg.w, 17, 3);
+          ctx.fill();
+        }
+        cx += seg.w + seg.g;
+        if (cx > W + 200) break;
+      }
+      ctx.restore();
+    }
+
+    function drawPlayhead(t) {
+      const px = W * 0.60 + Math.sin(t * 0.0025) * W * 0.045;
+      const ty = H * 0.695, by = H * 0.985;
+      ctx.save();
+      ctx.globalAlpha = 0.28;
+      ctx.strokeStyle = P.gold; ctx.lineWidth = 1.8;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(px, ty + 18); ctx.lineTo(px, by); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = P.gold;
+      ctx.beginPath();
+      ctx.moveTo(px,     ty + 14);
+      ctx.lineTo(px + 8, ty + 22);
+      ctx.lineTo(px,     ty + 30);
+      ctx.lineTo(px - 8, ty + 22);
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    function drawCursors(t) {
+      for (const c of cursors) {
+        const blink = Math.sin(t * 0.04 + c.phase);
+        if (blink < 0) continue;
+        ctx.save();
+        ctx.globalAlpha = blink * 0.14;
+        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+        ctx.lineWidth = 1.2;
+        // I-beam cursor shape
+        ctx.beginPath(); ctx.moveTo(c.x - 4, c.y); ctx.lineTo(c.x + 4, c.y); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(c.x, c.y + 18); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(c.x - 4, c.y + 18); ctx.lineTo(c.x + 4, c.y + 18); ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    /* ─────────── animation loop ─────────── */
+    let t = 0;
+    function frame() {
+      t++;
+
+      /* background */
+      const bg = ctx.createLinearGradient(0, 0, W * 0.5, H);
+      bg.addColorStop(0, '#06040f');
+      bg.addColorStop(1, '#0d0820');
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+      /* light leaks */
+      for (const lk of leaks) drawLeak(lk, t);
+
+      /* film strips */
+      for (const s of strips) {
+        drawFilmStrip(s);
+        s.x += s.speed * s.dir;
+      }
+
+      /* timeline */
+      tracks.forEach((tr, i) => { tr.yOff = i * 25; });
+      for (const tr of tracks) {
+        drawTrack(tr);
+        tr.offset += tr.speed;
+      }
+
+      /* playhead */
+      drawPlayhead(t);
+
+      /* play buttons */
+      for (const pb of playBtns) {
+        drawPlayBtn(pb);
+        pb.x += pb.vx; pb.y += pb.vy;
+        if (pb.x < -60) pb.x = W + 60;
+        if (pb.x > W + 60) pb.x = -60;
+        if (pb.y < -60) pb.y = H + 60;
+        if (pb.y > H + 60) pb.y = -60;
+      }
+
+      /* cursors */
+      drawCursors(t);
+
+      /* particles */
+      for (const p of particles) {
+        ctx.save();
+        ctx.globalAlpha = p.alpha * (0.55 + 0.45 * Math.sin(t * 0.018 + p.x * 0.01));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color; ctx.fill(); ctx.restore();
+        p.x += p.vx; p.y += p.vy;
+        if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    // kick off after layout
+    window.addEventListener('resize', () => { resize(); resetStripY(); });
+    window.addEventListener('load', () => { resize(); resetStripY(); frame(); });
+  })();
+  </script>
+</body>
+</html>
