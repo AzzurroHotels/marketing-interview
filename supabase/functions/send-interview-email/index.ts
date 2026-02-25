@@ -168,7 +168,7 @@ serve(async (req) => {
       })
       .join("");
 
-    const subject = `Azzurro Interview Submission — ${interview.candidate_name} (${interview.role})`;
+    const subject = `New Marketing Interview — ${interview.candidate_name} (${interview.role})`;
 
     const html = `
       <div style="font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#f3f9ff; padding:24px;">
