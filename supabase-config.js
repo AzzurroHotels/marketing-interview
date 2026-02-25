@@ -2,8 +2,8 @@
 // Fill these in from your Supabase project:
 // Project Settings → API → Project URL & anon public key
 
-export const SUPABASE_URL = "https://aqwzappvhpselbtgpury.supabase.co";
-export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxd3phcHB2aHBzZWxidGdwdXJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyNzcwNjMsImV4cCI6MjA4NTg1MzA2M30.pprUvGnOKql7swftydP1vb7a2j1GWr3jBVLKRzjK_Ug";
+export const SUPABASE_URL = "https://hbtjbmgreguchdozyxwb.supabase.co";
+export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhidGpibWdyZWd1Y2hkb3p5eHdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NTU0NjgsImV4cCI6MjA4NzUzMTQ2OH0.vCW2PB5vyfV4A8UIcZB28uqf1VpMGz80nMJbWVkKY4E";
 
 // Email address that receives interview submission notifications
 export const CAREERS_EMAIL = "careers@azzurrohotels.com";
